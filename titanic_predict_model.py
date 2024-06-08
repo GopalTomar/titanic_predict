@@ -20,7 +20,7 @@ def predict_survival(model, features):
 
 def main():
     # Load the trained Naive Bayes model
-    model_path = 'models/NaiveBayes_model.pkl'  # Path to the saved model
+    model_path = 'NaiveBayes_model.pkl'  # Path to the saved model
     nb_model = load_model(model_path)
 
     # Load sample Titanic dataset
