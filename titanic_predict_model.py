@@ -6,12 +6,16 @@ import pickle
 
 # Function to load the trained Naive Bayes model
 def load_model(model_path):
-    if not os.path.exists(model_path):
-        st.error(f"The model file was not found at path: {model_path}")
+    try:
+        if not os.path.exists(model_path):
+            st.error(f"The model file was not found at path: {model_path}")
+            return None
+        with open(model_path, 'rb') as file:
+            model = pickle.load(file)
+        return model
+    except Exception as e:
+        st.error(f"An error occurred while loading the model: {e}")
         return None
-    with open(model_path, 'rb') as file:
-        model = pickle.load(file)
-    return model
 
 model = load_model('NaiveBayes_model.pkl')
 
@@ -43,8 +47,11 @@ if st.sidebar.button("Predict"):
         'Embarked_S': [1 if embarked == 'S' else 0]
     })
 
-    prediction = model.predict(data)
-    prediction_proba = model.predict_proba(data)
+    try:
+        prediction = model.predict(data)
+        prediction_proba = model.predict_proba(data)
 
-    st.write(f"Predicted Survival: {'Yes' if prediction[0] == 1 else 'No'}")
-    st.write(f"Probability of Survival: {prediction_proba[0][1]:.2f}")
+        st.write(f"Predicted Survival: {'Yes' if prediction[0] == 1 else 'No'}")
+        st.write(f"Probability of Survival: {prediction_proba[0][1]:.2f}")
+    except Exception as e:
+        st.error(f"An error occurred during prediction: {e}")
