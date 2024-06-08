@@ -1,15 +1,22 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import os
 import pickle
 
 # Function to load the trained Naive Bayes model
 def load_model(model_path):
+    if not os.path.exists(model_path):
+        st.error(f"The model file was not found at path: {model_path}")
+        return None
     with open(model_path, 'rb') as file:
         model = pickle.load(file)
     return model
 
-model = load_model('models/NaiveBayes_model.pkl')
+model = load_model('NaiveBayes_model.pkl')
+
+if model is None:
+    st.stop()
 
 st.title("Titanic Survival Prediction")
 
@@ -41,4 +48,3 @@ if st.sidebar.button("Predict"):
 
     st.write(f"Predicted Survival: {'Yes' if prediction[0] == 1 else 'No'}")
     st.write(f"Probability of Survival: {prediction_proba[0][1]:.2f}")
-
