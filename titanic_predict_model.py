@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 import pickle
+from sklearn.naive_bayes import GaussianNB  # Ensure scikit-learn is imported
 
 # Function to load the trained Naive Bayes model
 def load_model(model_path):
