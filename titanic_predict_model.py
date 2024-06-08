@@ -3,7 +3,13 @@ import pandas as pd
 import numpy as np
 import os
 import pickle
-from sklearn.naive_bayes import GaussianNB  # Ensure scikit-learn is imported
+
+# Ensure scikit-learn is imported
+try:
+    from sklearn.naive_bayes import GaussianNB
+except ImportError as e:
+    st.error(f"An error occurred while importing scikit-learn: {e}")
+    st.stop()
 
 # Function to load the trained Naive Bayes model
 def load_model(model_path):
